@@ -1,6 +1,7 @@
 define([
-    'plex/cloud/interfaces/registry'
-], function(registry) {
+    'plex/cloud/interfaces/registry',
+    'plex/core/utils'
+], function(registry, utils) {
     function Users($c) {
         this.$c = $c;
     }
@@ -14,6 +15,18 @@ define([
 
     Users.prototype.account = function() {
         return this.$r('GET', 'account');
+    };
+
+    Users.prototype.login = function(username, password) {
+        if(!utils.isDefined(username) || !utils.isDefined(password)) {
+            throw new Error();
+        }
+
+        return this.$r('POST', 'sign_in.xml', {
+            headers: {
+                'Authorization': 'Basic ' + btoa(username + ':' + password)
+            }
+        });
     };
 
     // Register interface
