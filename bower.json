@@ -2,7 +2,10 @@
   "name": "plex.js",
   "version": "1.0.0",
 
-  "main": "dist/plex.js",
+  "main": [
+    "dist/when.js",
+    "dist/plex.js"
+  ],
 
   "repository": {
     "type": "git",
