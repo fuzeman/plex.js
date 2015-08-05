@@ -3,7 +3,14 @@ var gulp = require('gulp');
 var del = require('del');
 var rjs = require('requirejs');
 
-gulp.task('optimize', function() {
+gulp.task('cleanup', function(callback) {
+  // Delete /dist folder
+  del(['./dist/*'], function() {
+    callback();
+  });
+});
+
+gulp.task('optimize-when', ['cleanup'], function(callback) {
   rjs.optimize({
     appDir: 'bower_components/when/',
     baseUrl: './',
@@ -28,9 +35,15 @@ gulp.task('optimize', function() {
     preserveLicenseComments: false,
 
     // Add source maps for the original modules.
-    generateSourceMaps: true
-  });
+    generateSourceMaps: true,
 
+    onModuleBundleComplete: function() {
+      callback();
+    }
+  });
+});
+
+gulp.task('optimize-plex', ['cleanup'], function(callback) {
   rjs.optimize({
     appDir: 'src/',
     baseUrl: './',
@@ -77,11 +90,15 @@ gulp.task('optimize', function() {
     preserveLicenseComments: false,
 
     // Add source maps for the original modules.
-    generateSourceMaps: true
+    generateSourceMaps: true,
+
+    onModuleBundleComplete: function() {
+      callback();
+    }
   });
 });
 
-gulp.task('cleanup', function() {
+gulp.task('dist', ['optimize-when', 'optimize-plex'], function() {
   // Copy files to /dist
   gulp.src('./dist/_temp/plex/plex.*')
       .pipe(gulp.dest('./dist/'));
@@ -94,7 +111,16 @@ gulp.task('cleanup', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('src/**/*.js', ['optimize', 'cleanup']);
+  gulp.watch('src/**/*.js', [
+    'cleanup',
+    'optimize-when', 'optimize-plex',
+    'dist'
+  ]);
 });
 
-gulp.task('default', ['optimize', 'cleanup', 'watch']);
+gulp.task('default', [
+  'cleanup',
+  'optimize-when', 'optimize-plex',
+  'dist',
+  'watch'
+]);
