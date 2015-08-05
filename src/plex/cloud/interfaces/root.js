@@ -16,6 +16,10 @@ define([
         return this.$r('GET', 'devices.xml');
     };
 
+    Root.prototype.pins = function() {
+        return this.$r('POST', 'pins.xml');
+    };
+
     // Register interface
     Root.__path__ = '';
 

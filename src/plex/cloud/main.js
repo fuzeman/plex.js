@@ -16,6 +16,7 @@ define([
 
     'plex/cloud/interfaces/devices',
     'plex/cloud/interfaces/main',
+    'plex/cloud/interfaces/pins',
     'plex/cloud/interfaces/root',
     'plex/cloud/interfaces/users'
 ], function(Headers, registry, httpinvoke, when) {
