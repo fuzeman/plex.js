@@ -17,6 +17,10 @@
             require(['plex'], function(plex){
                 window.plex = plex;
 
+                if(typeof localStorage.client_identifier !== 'undefined' && localStorage.client_identifier !== null) {
+                    plex.cloud.client_identifier = localStorage.client_identifier;
+                }
+
                 if(typeof localStorage.token !== 'undefined' && localStorage.token !== null) {
                     plex.cloud.token = localStorage.token;
                 }

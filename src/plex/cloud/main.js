@@ -23,6 +23,8 @@ define([
     function Cloud() {
         this.baseUrl = 'https://plex.tv';
         this.headers = new Headers();
+
+        this.client_identifier = null;
         this.token = null;
 
         // Expose interfaces
@@ -49,6 +51,11 @@ define([
             }
         };
         config.headers = this.headers.get(config.headers);
+
+        // Set extra headers
+        if(this.client_identifier !== null) {
+            config.headers['X-Plex-Client-Identifier'] = this.client_identifier;
+        }
 
         if(this.token !== null) {
             config.headers['X-Plex-Token'] = this.token;
