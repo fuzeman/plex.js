@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+    <head></head>
+    <body>
+        <script src="../bower_components/requirejs/require.js"></script>
+        <script>
+            require.config({
+                baseUrl: "../dist",
+                waitSeconds: 15,
+
+                paths: {
+                    "httpinvoke": "../bower_components/httpinvoke/httpinvoke-browser",
+                    "ua-parser": "../bower_components/ua-parser-js/dist/ua-parser.min"
+                }
+            });
+
+            require(['plex'], function(plex){
+                window.plex = plex;
+
+                if(typeof localStorage.token !== 'undefined' && localStorage.token !== null) {
+                    plex.cloud.token = localStorage.token;
+                }
+            });
+        </script>
+    </body>
+</html>

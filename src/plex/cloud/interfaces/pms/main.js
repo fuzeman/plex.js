@@ -1,21 +1,20 @@
 define([
-    'plex/cloud/interfaces/registry',
-    'when'
-], function(registry, when) {
-    function PMS($c) {
+    'plex/cloud/interfaces/registry'
+], function(registry) {
+    function Main($c) {
         this.$c = $c;
     }
 
-    PMS.prototype.$r = function(method, path, config) {
-        return this.$c.request(method, PMS.__path__ + '/' + path, config);
+    Main.prototype.$r = function(method, path, config) {
+        return this.$c.request(method, Main.__path__ + '/' + path, config);
     };
 
-    PMS.prototype.ip = function() {
+    Main.prototype.ip = function() {
         return this.$r('GET', 'ip');
     };
 
     // Register interface
-    PMS.__path__ = 'pms/:';
+    Main.__path__ = '/pms/:';
 
-    registry.set(PMS);
+    registry.set(Main);
 });

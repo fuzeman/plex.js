@@ -4,7 +4,19 @@ define([
     'httpinvoke',
     'when',
 
+    // cloud interfaces
+    'plex/cloud/interfaces/api/home/root',
+    'plex/cloud/interfaces/api/home/users',
+    'plex/cloud/interfaces/api/invites',
+    'plex/cloud/interfaces/api/root',
+
     'plex/cloud/interfaces/pms/main',
+    'plex/cloud/interfaces/pms/playlists',
+    'plex/cloud/interfaces/pms/social',
+
+    'plex/cloud/interfaces/devices',
+    'plex/cloud/interfaces/main',
+    'plex/cloud/interfaces/root',
     'plex/cloud/interfaces/users'
 ], function(Headers, registry, httpinvoke, when) {
     function Cloud() {
@@ -22,7 +34,23 @@ define([
 
         // Build request
         config = typeof config !== 'undefined' ? config : {};
+        config.converters = {
+            'xml text': function(value) {
+                var serializer = new XMLSerializer();
+
+                return serializer.serializeToString(value);
+            },
+            'text xml': function(value) {
+                var parser = new DOMParser();
+
+                return parser.parseFromString(value, 'text/xml');
+            }
+        };
         config.headers = this.headers.get(config.headers);
+
+        if(this.token !== null) {
+            config.headers['X-Plex-Token'] = this.token;
+        }
 
         // Send request
         httpinvoke(url, method, config).then(function(response) {
