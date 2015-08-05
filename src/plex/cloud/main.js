@@ -27,10 +27,11 @@ define([
 
         // Expose interfaces
         registry.expose(this);
+        registry.exposeRoot(this);
     }
 
     Cloud.prototype.request = function(method, path, config) {
-        var url = this.baseUrl + '/' + path,
+        var url = this.baseUrl + path,
             deferred = when.defer();
 
         // Build request
