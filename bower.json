@@ -3,8 +3,8 @@
   "version": "1.0.0",
 
   "main": [
-    "dist/when.js",
-    "dist/plex.js"
+    "dist/global/when.js",
+    "dist/global/plex.js"
   ],
 
   "repository": {
@@ -29,6 +29,7 @@
     "demo",
     "src",
     "test",
+    "wrappers",
     
     ".travis.yml",
     "gulpfile.js",
