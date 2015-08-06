@@ -1,5 +1,22 @@
 define([], function() {
     var utils = {
+        random: {
+            string: function(length, chars) {
+                // Set parameter defaults
+                length = utils.isDefined(length) ? length : 16;
+                chars = utils.isDefined(chars) ? chars : '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+                // Generate string
+                var result = '';
+
+                for (var i = length; i > 0; --i) {
+                    result += chars[Math.round(Math.random() * (chars.length - 1))];
+                }
+
+                return result;
+            }
+        },
+
         url: {
             query: {
                 encode: function(parameters) {
