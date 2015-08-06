@@ -14,15 +14,25 @@
                 }
             });
 
-            require(['plex'], function(plex){
-                window.plex = plex;
+            require(['plex'], function(Plex){
+                window.plex = Plex;
 
+                // Cloud
                 if(typeof localStorage.client_identifier !== 'undefined' && localStorage.client_identifier !== null) {
-                    plex.cloud.client_identifier = localStorage.client_identifier;
+                    window.plex.cloud.client_identifier = localStorage.client_identifier;
                 }
 
                 if(typeof localStorage.token !== 'undefined' && localStorage.token !== null) {
-                    plex.cloud.token = localStorage.token;
+                    window.plex.cloud.token = localStorage.token;
+                }
+
+                // Server
+                if(typeof localStorage.server_uri !== 'undefined' && localStorage.server_uri !== null) {
+                    window.server = new Plex.Server(localStorage.server_uri);
+                }
+
+                if(typeof localStorage.server_token !== 'undefined' && localStorage.server_token !== null) {
+                    window.server.token = localStorage.server_token;
                 }
             });
         </script>

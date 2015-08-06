@@ -1,8 +1,10 @@
 define([
-    'plex/cloud/main'
-], function(Cloud) {
+    'plex/cloud/main',
+    'plex/server/main'
+], function(Cloud, Server) {
     return {
         Cloud: Cloud,
+        Server: Server,
 
         cloud: new Cloud()
     };
