@@ -1,12 +1,14 @@
 define([
+    'plex/core/headers',
     'httpinvoke',
     'when'
-], function(httpinvoke, when) {
+], function(Headers, httpinvoke, when) {
     function HttpClient(owner, baseUrl) {
         this.owner = owner;
         this.baseUrl = baseUrl;
 
         this.converters = this.buildConverters();
+        this.headers = new Headers();
         this.xmlParser = 'dom';
 
         this._x2js = null;

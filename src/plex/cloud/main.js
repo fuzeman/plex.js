@@ -1,5 +1,4 @@
 define([
-    'plex/core/headers',
     'plex/core/http',
     'plex/cloud/interfaces/registry',
 
@@ -18,10 +17,9 @@ define([
     'plex/cloud/interfaces/pins',
     'plex/cloud/interfaces/root',
     'plex/cloud/interfaces/users'
-], function(Headers, Http, registry) {
+], function(Http, registry) {
     function Cloud() {
         this.http = new Http.Client(this, 'https://plex.tv');
-        this.headers = new Headers();
 
         this.client_identifier = null;
         this.token = null;
