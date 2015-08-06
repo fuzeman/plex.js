@@ -16,6 +16,10 @@ define([
         return this.$r('GET', '');
     };
 
+    Root.prototype.identity = function() {
+        return this.$r('GET', 'identity');
+    };
+
     // Register interface
     Root.__path__ = '';
 
