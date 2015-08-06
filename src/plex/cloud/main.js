@@ -27,6 +27,10 @@ define([
         this.client_identifier = null;
         this.token = null;
 
+        this.xmlParser = 'dom';
+
+        this._x2js = null;
+
         // Expose interfaces
         registry.expose(this);
         registry.exposeRoot(this);
@@ -34,20 +38,35 @@ define([
 
     Cloud.prototype.request = function(method, path, config) {
         var url = this.baseUrl + path,
-            deferred = when.defer();
+            deferred = when.defer(),
+            self = this;
 
         // Build request
         config = typeof config !== 'undefined' ? config : {};
         config.converters = {
             'xml text': function(value) {
-                var serializer = new XMLSerializer();
-
-                return serializer.serializeToString(value);
+                return (new XMLSerializer()).serializeToString(value);
             },
             'text xml': function(value) {
-                var parser = new DOMParser();
+                if(self.xmlParser === 'dom') {
+                    return (new DOMParser()).parseFromString(value, 'text/xml');
+                }
 
-                return parser.parseFromString(value, 'text/xml');
+                if(self.xmlParser === 'x2js') {
+                    // Check if x2js is available
+                    if (!X2JS) {
+                        throw new Error("Missing X2JS library");
+                    }
+
+                    if(self._x2js === null) {
+                        self._x2js = new X2JS();
+                    }
+
+                    // Parse response
+                    return self._x2js.xml_str2json(value);
+                }
+
+                throw new Error('Unknown "responseType": ' + self.xmlParser);
             }
         };
         config.headers = this.headers.get(config.headers);
