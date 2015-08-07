@@ -3,6 +3,8 @@ define([
     'httpinvoke',
     'when'
 ], function(Headers, httpinvoke, when) {
+    var corsExposedHeaders = ['Cache-Control', 'Content-Language', 'Content-Type', 'Expires', 'Last-Modified', 'Pragma'];
+
     function HttpClient(owner, baseUrl) {
         this.owner = owner;
         this.baseUrl = baseUrl;
@@ -52,6 +54,8 @@ define([
         // Build request
         config = typeof config !== 'undefined' ? config : {};
         config.converters = this.converters;
+        config.corsExposedHeaders = corsExposedHeaders;
+        config.corsExposedHeadersDefaults = false;
         config.headers = this.headers.get(config.headers);
 
         // Set extra headers
