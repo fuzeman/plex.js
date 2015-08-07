@@ -56,7 +56,6 @@ define([
 
     Messaging.prototype.$r = function(method, path, config) {
         config = typeof config !== 'undefined' ? config : {};
-        config.outputType = 'xml';
 
         if(path.indexOf('/') !== 0) {
             // Append base interface path
@@ -82,6 +81,11 @@ define([
     Messaging.prototype.callFunction = function(identifier, name, args, kwargs, config) {
         var deferred = when.defer();
 
+        // Set parameter defaults
+        args = typeof args !== 'undefined' ? args : [];
+        kwargs = typeof kwargs !== 'undefined' ? kwargs : {};
+
+        // Call function
         this.call(identifier, 'function', [
             safe_encode(name),
             pack(args),
