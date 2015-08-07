@@ -3,6 +3,8 @@ define([
     'plex/server/interfaces/registry',
 
     // server interfaces
+    'plex/server/interfaces/plugins/messaging',
+
     'plex/server/interfaces/root'
 ], function(Http, registry) {
     function Server(baseUrl) {
