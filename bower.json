@@ -13,10 +13,10 @@
   },
 
   "dependencies": {
-    "httpinvoke": "~1.4.0",
     "ua-parser-js": "0.7.9",
 
-    "cerealizer.js": "git@github.com:fuzeman/Cerealizer.js.git"
+    "cerealizer.js": "git@github.com:fuzeman/Cerealizer.js.git",
+    "httpinvoke": "git@github.com:fuzeman/httpinvoke.git"
   },
 
   "devDependencies": {
