@@ -91,27 +91,9 @@ define([
             pack(args),
             pack(kwargs)
         ], config).then(function(data) {
-            data = unpack(data);
-
-            // Parse response
-            if(typeof data === 'string') {
-                data = JSON.parse(data);
-            } else if(typeof data === 'object') {
-                console.warn('Legacy response format returned');
-            }
-
-            // Return response
-            console.debug('Response', data);
-
-            if(data.result !== undefined) {
-                deferred.resolve(data.result);
-                return;
-            }
-
-            // Handle errors
-            if(data.error !== undefined) {
-                deferred.reject(data.error);
-            } else {
+            try {
+                deferred.resolve(unpack(data));
+            } catch(ex) {
                 deferred.reject(null);
             }
         }, function(data, status) {
