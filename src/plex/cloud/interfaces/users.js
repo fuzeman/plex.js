@@ -33,6 +33,9 @@ define([
         return this.$r('POST', 'sign_in.xml', {
             headers: {
                 'Authorization': 'Basic ' + btoa(username + ':' + password)
+            },
+            plex: {
+                useToken: false
             }
         });
     };

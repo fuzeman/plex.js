@@ -1,8 +1,9 @@
 define([
     'plex/core/headers',
+    'plex/core/utils',
     'httpinvoke',
     'when'
-], function(Headers, httpinvoke, when) {
+], function(Headers, utils, httpinvoke, when) {
     var corsExposedHeaders = ['Cache-Control', 'Content-Language', 'Content-Type', 'Expires', 'Last-Modified', 'Pragma'];
 
     function HttpClient(owner, baseUrl) {
@@ -47,9 +48,28 @@ define([
         };
     };
 
+    HttpClient.prototype.getSettings = function(config) {
+        var settings = {};
+
+        if(utils.isDefined(config.plex)) {
+            settings = config.plex;
+
+            // Remove `plex` from request configuration
+            delete config.plex;
+        }
+
+        // Set defaults
+        settings.useToken = utils.isDefined(settings.useToken) ? settings.useToken : true;
+
+        return settings;
+    };
+
     HttpClient.prototype.request = function(method, path, config) {
         var url = this.baseUrl + path,
             deferred = when.defer();
+
+        // Retrieve plex settings
+        var settings = this.getSettings(config);
 
         // Build request
         config = typeof config !== 'undefined' ? config : {};
@@ -63,7 +83,7 @@ define([
             config.headers['X-Plex-Client-Identifier'] = this.owner.client_identifier;
         }
 
-        if(this.owner.token !== null) {
+        if(this.owner.token !== null && settings.useToken) {
             config.headers['X-Plex-Token'] = this.owner.token;
         }
 
