@@ -13,16 +13,16 @@ define([
         return this.$c.request(method, Users.__path__ + '/' + path, config);
     };
 
-    Users.prototype.account = function(token) {
-        var headers = {};
+    Users.prototype.account = function(token, config) {
+        config = utils.isDefined(config) ? config : {};
+
+        config.headers = {};
 
         if(utils.isDefined(token)) {
-            headers['X-Plex-Token'] = token;
+            config.headers['X-Plex-Token'] = token;
         }
 
-        return this.$r('GET', 'account', {
-            headers: headers
-        });
+        return this.$r('GET', 'account', config);
     };
 
     Users.prototype.login = function(username, password) {

@@ -17,7 +17,11 @@ define([
     };
 
     Root.prototype.pins = function() {
-        return this.$r('POST', 'pins.xml');
+        return this.$r('POST', 'pins.xml', {
+            plex: {
+                useToken: false
+            }
+        });
     };
 
     // Register interface

@@ -13,7 +13,11 @@ define([
     };
 
     Pins.prototype.get = function(id) {
-        return this.$r('GET', id + '.xml');
+        return this.$r('GET', id + '.xml', {
+            plex: {
+                useToken: false
+            }
+        });
     };
 
     // Register interface
