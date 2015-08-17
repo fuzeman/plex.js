@@ -90,14 +90,16 @@ define([
             safe_encode(name),
             pack(args),
             pack(kwargs)
-        ], config).then(function(data) {
+        ], config).then(function(response) {
             try {
-                deferred.resolve(unpack(data));
+                response.data = unpack(response.data);
+
+                deferred.resolve(response);
             } catch(ex) {
-                deferred.reject(null);
+                deferred.reject({});
             }
-        }, function(data, status) {
-            deferred.reject(data, status);
+        }, function(response) {
+            deferred.reject(response);
         });
 
         return deferred.promise;
