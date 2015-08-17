@@ -90,14 +90,24 @@ define([
         // Send request
         httpinvoke(url, method, config).then(function(response) {
             // Handle response
+            var value = {
+                data: response.body,
+                headers: response.headers,
+
+                statusCode: response.statusCode,
+                statusText: response.statusText
+            };
+
             if(response.statusCode >= 200 && response.statusCode <= 299) {
-                deferred.resolve(response.body);
+                deferred.resolve(value);
             } else {
-                deferred.reject(response.body, response.statusCode, response.headers, null, response.statusText);
+                deferred.reject(value);
             }
         }, function(statusText) {
             // Socket error
-            deferred.reject(null, null, null, null, statusText);
+            deferred.reject({
+                statusText: statusText
+            });
         });
 
         return deferred.promise;
