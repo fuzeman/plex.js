@@ -12,12 +12,12 @@ define([
         return this.$c.request(method, Root.__path__ + '/' + path, config);
     };
 
-    Root.prototype.details = function() {
-        return this.$r('GET', '');
+    Root.prototype.details = function(config) {
+        return this.$r('GET', '', config);
     };
 
-    Root.prototype.identity = function() {
-        return this.$r('GET', 'identity');
+    Root.prototype.identity = function(config) {
+        return this.$r('GET', 'identity', config);
     };
 
     // Register interface
